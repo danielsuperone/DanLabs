@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 (function(){
   // --- Diagnostics: capture failed resource loads and unhandled rejections ---
@@ -30,7 +30,6 @@
       } catch (e) {}
     });
   } catch (e) { /* ignore if environment doesn't allow listeners */ }
-
   const $ = (s) => document.querySelector(s);
 
   // Populate year
@@ -131,7 +130,7 @@
   const tiles = [
     { title:'GameBox', href:'https://gamebox.danlabs.me', emoji:'🎮', accent:'#60A5FA', description:'Play Mafia, GeoGuessr-style rounds, Who Am I, and more with friends. Fast lobbies, voice-ready rooms, instant invites.', gradient:{from:'#60A5FA',via:'#A78BFA',to:'#22D3EE'} },
     { title:'GAMBL', href:'https://gambl.danlabs.me', emoji:'💎', accent:'#22D3EE', description:'Casino-grade feel with a clean UI. Think Stake-esque: dice, crash, mines, all with on-page stats and fairness proofs.', gradient:{from:'#06B6D4',via:'#22D3EE',to:'#10B981'} },
-    { title:'StudyFlow', href:'https://studyflow.danlabs.me/', emoji:'📚', accent:'#F59E0B', description:'Smart study management platform with flashcards, progress tracking, and spaced repetition algorithms. Boost your learning efficiency.', gradient:{from:'#F59E0B',via:'#EF4444',to:'#EC4899'} },
+    { title:'StudyFlow', href:'https://studyflow.danlabs.me', emoji:'📚', accent:'#F59E0B', description:'Smart study management platform with flashcards, progress tracking, and spaced repetition algorithms. Boost your learning efficiency.', gradient:{from:'#F59E0B',via:'#EF4444',to:'#EC4899'} },
     { title:'Portfolio', href:null, emoji:'🔗', accent:'#34D399', description:'Plug in your personal site—this tile becomes your gateway to whatever URL you choose.', gradient:{from:'#A78BFA',via:'#34D399',to:'#22D3EE'}, isPortfolio:true },
     { title:'About DanLabs', href:'https://danlabs.me/about', emoji:'🌐', accent:'#A78BFA', description:'Team, stack, and roadmap. Minimal words, maximal clarity. Keep it transparent and up-to-date.', gradient:{from:'#A78BFA',via:'#60A5FA',to:'#38BDF8'} }
   ];
@@ -174,18 +173,14 @@
     a.appendChild(inner);
 
     if (item.isPortfolio){
-      // New behavior: use the login page as a gate before opening the portfolio site.
-      // Clicking the portfolio tile navigates to login.html which will open the portfolio in a new tab on successful authentication.
+      // If user has set a portfolio URL, open it in a new tab; otherwise show the dialog
       a.addEventListener('click', (e)=>{
-        e.preventDefault();
-        // Construct the login URL relative to the current location so the redirect works
-        // whether the site is hosted at the root or a subpath.
-        try {
-          const loginUrl = new URL('login.html?target=portfolio', window.location.href);
-          window.location.href = loginUrl.href;
-        } catch (err) {
-          // Fallback to root-relative if URL constructor fails in odd environments
-          window.location.href = '/login.html?target=portfolio';
+        if (!portfolioUrl){
+          e.preventDefault();
+          document.getElementById('portfolio-dialog')?.showModal();
+        } else {
+          e.preventDefault();
+          window.open(portfolioUrl, '_blank', 'noopener');
         }
       });
     }
@@ -351,10 +346,10 @@
           // Register a minimal service worker to enable PWA installability and caching
           if ('serviceWorker' in navigator) {
             try {
-              // Use root-relative path for registration so the scope covers the site correctly
-              // and avoid 404s when the site is deployed under a different base path.
-              navigator.serviceWorker.register('/sw.js').catch(()=>{});
-            } catch(e){}
+                // Use root-relative path for registration so the scope covers the site correctly
+                // and avoid 404s when the site is deployed under a different base path.
+                navigator.serviceWorker.register('/sw.js').catch(()=>{});
+              } catch(e){}
           }
 
   // Wire events

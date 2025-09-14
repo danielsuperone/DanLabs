@@ -158,7 +158,6 @@ html.dark input[type="password"]{
   color: var(--text);
   -webkit-text-fill-color: var(--text);
 }
-
 .site-footer{border-top:1px solid rgba(0,0,0,0.06);padding:28px 0;text-align:center;color:var(--muted)}
 .glow{position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 50% at 50% -10%, rgba(99,102,241,0.12), transparent), radial-gradient(40% 30% at 10% 90%, rgba(16,185,129,0.08), transparent);pointer-events:none}
 
