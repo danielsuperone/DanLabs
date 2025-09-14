@@ -30,6 +30,10 @@
       } catch (e) {}
     });
   } catch (e) { /* ignore if environment doesn't allow listeners */ }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7552aaa (Refined login system)
   const $ = (s) => document.querySelector(s);
 
   // Populate year
@@ -175,12 +179,24 @@
     if (item.isPortfolio){
       // If user has set a portfolio URL, open it in a new tab; otherwise show the dialog
       a.addEventListener('click', (e)=>{
+<<<<<<< HEAD
         if (!portfolioUrl){
           e.preventDefault();
           document.getElementById('portfolio-dialog')?.showModal();
         } else {
           e.preventDefault();
           window.open(portfolioUrl, '_blank', 'noopener');
+=======
+        e.preventDefault();
+        // Construct the login URL relative to the current location so the redirect works
+        // whether the site is hosted at the root or a subpath.
+        try {
+          const loginUrl = new URL('login.html?target=portfolio', window.location.href);
+          window.location.href = loginUrl.href;
+        } catch (err) {
+          // Fallback to root-relative if URL constructor fails in odd environments
+          window.location.href = '/login.html?target=portfolio';
+>>>>>>> 7552aaa (Refined login system)
         }
       });
     }
@@ -346,10 +362,17 @@
           // Register a minimal service worker to enable PWA installability and caching
           if ('serviceWorker' in navigator) {
             try {
+<<<<<<< HEAD
                 // Use root-relative path for registration so the scope covers the site correctly
                 // and avoid 404s when the site is deployed under a different base path.
                 navigator.serviceWorker.register('/sw.js').catch(()=>{});
               } catch(e){}
+=======
+              // Use root-relative path for registration so the scope covers the site correctly
+              // and avoid 404s when the site is deployed under a different base path.
+              navigator.serviceWorker.register('/sw.js').catch(()=>{});
+            } catch(e){}
+>>>>>>> 7552aaa (Refined login system)
           }
 
   // Wire events
