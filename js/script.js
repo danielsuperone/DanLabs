@@ -353,7 +353,8 @@
             try {
               // Use root-relative path for registration so the scope covers the site correctly
               // and avoid 404s when the site is deployed under a different base path.
-              navigator.serviceWorker.register('/sw.js').catch(()=>{});
+              // Try root-relative first (typical production), fall back to relative path for local testing
+              navigator.serviceWorker.register('/sw.js').catch(()=> navigator.serviceWorker.register('sw.js').catch(()=>{}));
             } catch(e){}
           }
 
