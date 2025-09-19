@@ -1,0 +1,13 @@
+{
+  "name": "DanLabs",
+  "short_name": "DanLabs",
+  "description": "A polished hub for DanLabs projects: games, apps, and a customizable portfolio tile.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f1724",
+  "theme_color": "#0f1724",
+  "icons": [
+    { "src": "assets/profile-picture.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/profile-picture.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

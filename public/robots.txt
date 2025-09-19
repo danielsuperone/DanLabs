@@ -1,0 +1,12 @@
+# robots.txt for DanLabs
+# Sitemap points at your production domain
+
+User-agent: *
+Disallow: /private.html
+Disallow: /login.html
+Allow: /
+
+Sitemap: https://danlabs.me/sitemap.xml
+
+# Notes:
+# - If you want to block additional paths (admin, staging, etc), add more Disallow lines.
