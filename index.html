@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>DanLabs - By Daniel Buttigieg</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DanLabs - By Daniel Buttigieg</title>
     <meta name="description" content="A polished hub for DanLabs projects: games, apps, and a customizable portfolio tile." />
   <!-- Tailwind CDN for quick parity with the original Tailwind styles -->
   <script>window.tailwind = { config: { darkMode: 'class' } }</script>
@@ -12,20 +12,9 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@0.268.0/dist/lucide.min.js"></script>
     <link rel="stylesheet" href="css/styles.css">
   <!-- PWA / Apple Web App -->
+  <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#0f1724">
-  <!-- Inject manifest only when served over http(s) to avoid file:// CORS errors during local file inspection -->
-  <script>
-    try {
-      if (location.protocol === 'http:' || location.protocol === 'https:') {
-        var l = document.createElement('link');
-        l.rel = 'manifest';
-        l.href = 'manifest.json';
-        document.head.appendChild(l);
-      }
-    } catch (e) {}
-  </script>
-  <!-- Use relative path for apple-touch-icon so file:// viewers don't encounter absolute-root issues -->
-  <link rel="apple-touch-icon" href="assets/profile-picture.png">
+  <link rel="apple-touch-icon" href="/assets/profile-picture.png">
   <meta name="apple-mobile-web-app-title" content="DanLabs">
   <meta name="apple-mobile-web-app-capable" content="yes">
 

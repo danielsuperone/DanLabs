@@ -131,7 +131,7 @@
   const tiles = [
     { title:'GameBox', href:'https://gamebox.danlabs.me', emoji:'🎮', accent:'#60A5FA', description:'Play Mafia, GeoGuessr-style rounds, Who Am I, and more with friends. Fast lobbies, voice-ready rooms, instant invites.', gradient:{from:'#60A5FA',via:'#A78BFA',to:'#22D3EE'} },
     { title:'GAMBL', href:'https://gambl.danlabs.me', emoji:'💎', accent:'#22D3EE', description:'Casino-grade feel with a clean UI. Think Stake-esque: dice, crash, mines, all with on-page stats and fairness proofs.', gradient:{from:'#06B6D4',via:'#22D3EE',to:'#10B981'} },
-    { title:'StudyFlow', href:'https://studyflow.danlabs.me', emoji:'📚', accent:'#F59E0B', description:'Smart study management platform with flashcards, progress tracking, and spaced repetition algorithms. Boost your learning efficiency.', gradient:{from:'#F59E0B',via:'#EF4444',to:'#EC4899'} },
+    { title:'StudyFlow', href:'https://studyflow.danlabs.me/', emoji:'📚', accent:'#F59E0B', description:'Smart study management platform with flashcards, progress tracking, and spaced repetition algorithms. Boost your learning efficiency.', gradient:{from:'#F59E0B',via:'#EF4444',to:'#EC4899'} },
     { title:'Portfolio', href:null, emoji:'🔗', accent:'#34D399', description:'Plug in your personal site—this tile becomes your gateway to whatever URL you choose.', gradient:{from:'#A78BFA',via:'#34D399',to:'#22D3EE'}, isPortfolio:true },
     { title:'About DanLabs', href:'https://danlabs.me/about', emoji:'🌐', accent:'#A78BFA', description:'Team, stack, and roadmap. Minimal words, maximal clarity. Keep it transparent and up-to-date.', gradient:{from:'#A78BFA',via:'#60A5FA',to:'#38BDF8'} }
   ];
@@ -174,42 +174,20 @@
     a.appendChild(inner);
 
     if (item.isPortfolio){
-        // If a portfolio URL is configured, open it; otherwise route through the login gate.
-        // Compute a directory-aware login URL so the site behaves the same when deployed under a subpath.
-        a.addEventListener('click', (e)=>{
-          e.preventDefault();
-          if (portfolioUrl) {
-            // Only open absolute http(s) or protocol-relative URLs stored in portfolioUrl.
-            // This prevents local or relative values from opening unexpected pages.
-            try {
-              const isAbsolute = /^(https?:)?\/\//i.test(portfolioUrl);
-              if (isAbsolute) {
-                try { window.open(portfolioUrl, '_blank', 'noopener'); } catch(_) { window.location.href = portfolioUrl; }
-                return;
-              }
-              // Not an absolute URL — ignore and fall through to the login flow
-            } catch (e) {
-              // If regex or window.open throws for some reason, fallback to login logic below
-            }
-          }
-
-          try {
-            // When opened via file://, use a simple relative navigation so local files resolve correctly.
-            if (location.protocol === 'file:') {
-              window.location.href = 'login.html?target=portfolio';
-              return;
-            }
-
-            // Ensure we stay in the same directory as the current document. If the current path
-            // doesn't end with a slash, append one so we build a directory path (e.g. '/dg' -> '/dg/').
-            const basePath = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
-            const loginHref = location.origin + basePath + 'login.html?target=portfolio';
-            window.location.href = loginHref;
-          } catch (err) {
-            // Fallback to root-relative if anything goes wrong
-            window.location.href = '/login.html?target=portfolio';
-          }
-        });
+      // New behavior: use the login page as a gate before opening the portfolio site.
+      // Clicking the portfolio tile navigates to login.html which will open the portfolio in a new tab on successful authentication.
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        // Construct the login URL relative to the current location so the redirect works
+        // whether the site is hosted at the root or a subpath.
+        try {
+          const loginUrl = new URL('login.html?target=portfolio', window.location.href);
+          window.location.href = loginUrl.href;
+        } catch (err) {
+          // Fallback to root-relative if URL constructor fails in odd environments
+          window.location.href = '/login.html?target=portfolio';
+        }
+      });
     }
 
     return a;
@@ -375,8 +353,7 @@
             try {
               // Use root-relative path for registration so the scope covers the site correctly
               // and avoid 404s when the site is deployed under a different base path.
-              // Try root-relative first (typical production), fall back to relative path for local testing
-              navigator.serviceWorker.register('/sw.js').catch(()=> navigator.serviceWorker.register('sw.js').catch(()=>{}));
+              navigator.serviceWorker.register('/sw.js').catch(()=>{});
             } catch(e){}
           }
 

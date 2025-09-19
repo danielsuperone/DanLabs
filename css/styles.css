@@ -38,12 +38,6 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; -webkit-font-smoothing:antialiased}
 
-/* Respect user text-size adjustments across modern browsers */
-:host, html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-
 /* Override body background and text to ensure proper theming */
 html, body {
   background: transparent;
@@ -155,18 +149,16 @@ input[type="password"]{
   /* Use the theme foreground color for masked characters */
   color: var(--text); /* affects text color in some browsers */
   -webkit-text-fill-color: var(--text); /* Chrome, Safari */
-  /* Respect user agent text-size adjustments across modern browsers */
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
   caret-color: color-mix(in srgb, var(--text) 85%, transparent); /* keep caret visible */
   background-clip: padding-box;
 }
 
 /* Ensure dark theme shows white bullets and light theme shows dark bullets */
-.html.dark input[type="password"]{
+html.dark input[type="password"]{
   color: var(--text);
   -webkit-text-fill-color: var(--text);
 }
+
 .site-footer{border-top:1px solid rgba(0,0,0,0.06);padding:28px 0;text-align:center;color:var(--muted)}
 .glow{position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 50% at 50% -10%, rgba(99,102,241,0.12), transparent), radial-gradient(40% 30% at 10% 90%, rgba(16,185,129,0.08), transparent);pointer-events:none}
 
