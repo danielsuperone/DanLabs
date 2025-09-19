@@ -30,10 +30,7 @@
       } catch (e) {}
     });
   } catch (e) { /* ignore if environment doesn't allow listeners */ }
-<<<<<<< HEAD
-=======
-
->>>>>>> 7552aaa (Refined login system)
+  
   const $ = (s) => document.querySelector(s);
 
   // Populate year
@@ -133,8 +130,8 @@
   // Tiles data (with emojis)
   const tiles = [
     { title:'GameBox', href:'https://gamebox.danlabs.me', emoji:'🎮', accent:'#60A5FA', description:'Play Mafia, GeoGuessr-style rounds, Who Am I, and more with friends. Fast lobbies, voice-ready rooms, instant invites.', gradient:{from:'#60A5FA',via:'#A78BFA',to:'#22D3EE'} },
-    { title:'GAMBL', href:'https://gambl.danlabs.me', emoji:'💎', accent:'#22D3EE', description:'Casino-grade feel with a clean UI. Think Stake-esque: dice, crash, mines, all with on-page stats and fairness proofs.', gradient:{from:'#06B6D4',via:'#22D3EE',to:'#10B981'} },
-    { title:'StudyFlow', href:'https://studyflow.danlabs.me', emoji:'📚', accent:'#F59E0B', description:'Smart study management platform with flashcards, progress tracking, and spaced repetition algorithms. Boost your learning efficiency.', gradient:{from:'#F59E0B',via:'#EF4444',to:'#EC4899'} },
+  { title:'GAMBL', href:'https://gambl.danlabs.me', emoji:'💎', accent:'#22D3EE', description:'Casino-grade feel with a clean UI. Think Stake-esque: dice, crash, mines, all with on-page stats and fairness proofs.', gradient:{from:'#06B6D4',via:'#22D3EE',to:'#10B981'} },
+  { title:'StudyFlow', href:'https://studyflow.danlabs.me', emoji:'📚', accent:'#F59E0B', description:'Smart study management platform with flashcards, progress tracking, and spaced repetition algorithms. Boost your learning efficiency.', gradient:{from:'#F59E0B',via:'#EF4444',to:'#EC4899'} },
     { title:'Portfolio', href:null, emoji:'🔗', accent:'#34D399', description:'Plug in your personal site—this tile becomes your gateway to whatever URL you choose.', gradient:{from:'#A78BFA',via:'#34D399',to:'#22D3EE'}, isPortfolio:true },
     { title:'About DanLabs', href:'https://danlabs.me/about', emoji:'🌐', accent:'#A78BFA', description:'Team, stack, and roadmap. Minimal words, maximal clarity. Keep it transparent and up-to-date.', gradient:{from:'#A78BFA',via:'#60A5FA',to:'#38BDF8'} }
   ];
