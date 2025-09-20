@@ -149,6 +149,9 @@ input[type="password"]{
   /* Use the theme foreground color for masked characters */
   color: var(--text); /* affects text color in some browsers */
   -webkit-text-fill-color: var(--text); /* Chrome, Safari */
+  /* Respect user agent text-size adjustments across modern browsers */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   caret-color: color-mix(in srgb, var(--text) 85%, transparent); /* keep caret visible */
   background-clip: padding-box;
 }
