@@ -179,8 +179,18 @@
         a.addEventListener('click', (e)=>{
           e.preventDefault();
           if (portfolioUrl) {
-            try { window.open(portfolioUrl, '_blank', 'noopener'); } catch(_) { window.location.href = portfolioUrl; }
-            return;
+            // Only open absolute http(s) or protocol-relative URLs stored in portfolioUrl.
+            // This prevents local or relative values from opening unexpected pages.
+            try {
+              const isAbsolute = /^(https?:)?\/\//i.test(portfolioUrl);
+              if (isAbsolute) {
+                try { window.open(portfolioUrl, '_blank', 'noopener'); } catch(_) { window.location.href = portfolioUrl; }
+                return;
+              }
+              // Not an absolute URL — ignore and fall through to the login flow
+            } catch (e) {
+              // If regex or window.open throws for some reason, fallback to login logic below
+            }
           }
 
           try {
