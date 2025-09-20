@@ -1,0 +1,302 @@
+:root{
+  --bg:#ffffff;
+  --text:#0f172a;
+  --muted:#475569;
+  --card-bg: rgba(255,255,255,0.9);
+  --glass: rgba(255,255,255,0.6);
+  --accent-from: #6366F1; /* indigo-500 */
+  --accent-via: #06B6D4; /* cyan-400 */
+  --accent-to: #10B981;  /* emerald-400 */
+
+  /* iOS glass variables */
+  --ios-surface: hsl(0 0% 100% / 0.12);
+  --ios-surface-2: hsl(0 0% 100% / 0.18);
+  --ios-border: hsl(0 0% 100% / 0.28);
+  --ios-text: #f8fafc;
+  --ios-muted: #cbd5e1;
+  --ios-shadow: 0 10px 40px rgba(0,0,0,0.35);
+  --ios-ring: 0 0 0 2px rgba(99,102,241,0.35);
+}
+:root.dark{
+  --bg:#0f1724;
+  --text:#f8fafc;
+  --muted:#cbd5e1;
+  --card-bg: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.04);
+  --accent-from: #6366F1;
+  --accent-via: #06B6D4;
+  --accent-to: #10B981;
+
+  --ios-surface: hsl(217 32% 17% / 0.55);
+  --ios-surface-2: hsl(217 35% 22% / 0.55);
+  --ios-border: hsl(220 40% 60% / 0.22);
+  --ios-text: #e5e7eb;
+  --ios-muted: #94a3b8;
+  --ios-shadow: 0 18px 65px rgba(2,6,23,0.6);
+  --ios-ring: 0 0 0 2px rgba(99,102,241,0.5);
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; -webkit-font-smoothing:antialiased}
+
+/* Respect user text-size adjustments across modern browsers */
+:host, html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Override body background and text to ensure proper theming */
+html, body {
+  background: transparent;
+  color: inherit;
+}
+
+/* Ensure proper contrast in light mode */
+html:not(.dark) body {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html.dark body {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+.container{max-width:1100px;margin:0 auto;padding:1rem}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:64px}
+
+/* Header elevation: subtle 3D look with theme-aware shadow and backdrop blur */
+.header-bg{
+  transition:box-shadow .28s ease, backdrop-filter .28s ease, background-color .28s ease;
+  /* slightly translucent so backdrop-blur can show through */
+  background-color: rgba(255,255,255,0.02);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+}
+
+/* Stronger lift when scrolled or active */
+.header-bg.header-elevated, .header-bg.scrolled {
+  box-shadow: 0 18px 45px rgba(2,6,23,0.14);
+  background-color: rgba(255,255,255,0.04);
+}
+
+/* Dark mode adjustments */
+html.dark .header-bg{
+  background-color: rgba(10,16,24,0.32);
+  box-shadow: 0 8px 28px rgba(2,6,23,0.48);
+}
+html.dark .header-bg.header-elevated, html.dark .header-bg.scrolled{
+  box-shadow: 0 20px 55px rgba(2,6,23,0.6);
+  background-color: rgba(10,16,24,0.42);
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--accent-from),var(--accent-via));display:grid;place-items:center;color:white;font-weight:700}
+.logo-img{width:100%;height:100%;object-fit:cover;display:block}
+.site-title{font-weight:600}
+.controls{display:flex;gap:8px}
+.controls .btn-emoji{font-size:1.05rem;line-height:1;display:inline-block}
+
+/* On very small screens, hide the text label and the SVG lucide icons, show only the emoji for compactness */
+@media (max-width: 640px) {
+  .controls i[data-lucide], .controls .hidden.sm\:inline { display: none !important; }
+  .controls .btn-emoji{display:inline-block;margin-right:0}
+  .controls > *{padding-left:10px;padding-right:10px}
+}
+.btn{background:var(--glass);border:1px solid rgba(0,0,0,0.06);padding:8px 12px;border-radius:10px;cursor:pointer}
+.btn.small{padding:6px 8px;font-size:0.9rem}
+.btn.primary{background:linear-gradient(90deg,#6366F1,#06B6D4);color:#07102a;border:none}
+.hero{min-height:70vh;padding:48px 0;position:relative;display:flex;align-items:center}
+.text-center{text-align:center}
+.hero h1{font-size:2.25rem;margin:0}
+.hero .lead{color:var(--muted);max-width:680px;margin:12px auto}
+.gradient-text{background:linear-gradient(90deg,var(--accent-from),var(--accent-via),var(--accent-to));-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* Ensure hero H1 is readable in both themes */
+.hero-heading{color:var(--text);} /* default to var(--text) */
+/* Force dark text in light mode */
+html:not(.dark) .hero-heading{color:#0f172a !important;} /* dark slate for contrast on white */
+/* Force light text in dark mode */
+html.dark .hero-heading{color:#f8fafc !important;} /* near-white for dark bg */
+
+.hero-actions{margin-top:18px;display:inline-flex;gap:12px}
+.pill{border-radius:999px;padding:10px 18px;background:rgba(0,0,0,0.03)}
+.cta{border-radius:999px;padding:10px 18px;color:black;background:linear-gradient(90deg,var(--accent-from),var(--accent-via));box-shadow:0 10px 30px rgba(59,130,246,0.2)}
+.scroll-cue{position:absolute;left:50%;transform:translateX(-50%);bottom:12px;color:var(--muted)}
+/* Scroll cue hiding */
+#scroll-cue{transition:opacity .36s ease, transform .36s ease}
+.scroll-hidden{opacity:0;transform:translateY(8px)}
+
+/* Compact layout when user has scrolled: slightly reduce hero spacing and bring tiles closer */
+.compact-tiles .hero{min-height:56vh;padding-top:28px;padding-bottom:12px}
+.compact-tiles #tiles{padding-top:18px}
+.compact-tiles #tiles-grid{transform:translateY(-24px);transition:transform .36s ease}
+.compact-tiles #hero-inner{transition:transform .36s ease}
+.tiles{padding:48px 0;display:grid;grid-template-columns:repeat(1,1fr);gap:18px}
+@media(min-width:640px){.tiles{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.tiles{grid-template-columns:repeat(3,1fr)}}
+.tile{border-radius:18px;padding:1px;background:linear-gradient(140deg,var(--accent-from),#22D3EE,var(--accent-to))}
+.tile-inner{background:var(--card-bg);padding:20px;border-radius:18px;backdrop-filter:blur(8px);position:relative}
+.tile .icon{width:48px;height:48px;border-radius:8px;display:grid;place-items:center;background:transparent;border:none}
+.tile h3{margin:0;font-size:1.125rem}
+.tile p{margin:8px 0 0;color:var(--muted);font-size:0.95rem}
+.dialog{border:none;background:transparent}
+.dialog-inner{background:var(--card-bg);padding:18px;border-radius:14px;border:1px solid rgba(0,0,0,0.06);max-width:560px}
+.dialog-actions{display:flex;gap:8px;margin-top:12px}
+input[type="url"]{flex:1;padding:10px;border-radius:12px;border:1px solid rgba(0,0,0,0.08)}
+/* Password field: ensure the masked bullets/dots match theme text color.
+   - Chrome/Safari use -webkit-text-fill-color for the obscured glyphs.
+   - Fall back to `color` for other browsers where supported.
+   - Use caret-color to keep cursor visible against backgrounds.
+*/
+input[type="password"]{
+  flex:1;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,0.08);
+  /* Use the theme foreground color for masked characters */
+  color: var(--text); /* affects text color in some browsers */
+  -webkit-text-fill-color: var(--text); /* Chrome, Safari */
+  /* Respect user agent text-size adjustments across modern browsers */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  caret-color: color-mix(in srgb, var(--text) 85%, transparent); /* keep caret visible */
+  background-clip: padding-box;
+}
+
+/* Ensure dark theme shows white bullets and light theme shows dark bullets */
+.html.dark input[type="password"]{
+  color: var(--text);
+  -webkit-text-fill-color: var(--text);
+}
+.site-footer{border-top:1px solid rgba(0,0,0,0.06);padding:28px 0;text-align:center;color:var(--muted)}
+.glow{position:fixed;inset:0;z-index:-1;background:radial-gradient(60% 50% at 50% -10%, rgba(99,102,241,0.12), transparent), radial-gradient(40% 30% at 10% 90%, rgba(16,185,129,0.08), transparent);pointer-events:none}
+
+/* Reveal animation base state for tiles */
+.reveal{opacity:0;transform:translateY(18px) scale(.992);transition:opacity .45s ease, transform .55s cubic-bezier(.2,.9,.2,1)}
+.reveal .rounded-3xl{opacity:0;transform:translateY(6px) scale(.995);transition:transform .55s cubic-bezier(.2,.9,.2,1), opacity .45s ease}
+.reveal-visible{opacity:1;transform:translateY(0) scale(1)}
+.reveal-visible .rounded-3xl{opacity:1;transform:translateY(0) scale(1)}
+
+/* When using Animate.css, keep a slightly faster easing for a snappier effect */
+.animate-stagger { will-change:transform,opacity; }
+
+/* View transitions and theme-driven variables */
+@supports (view-transition: name) {
+  ::view-transition-old(root) {
+    animation: move-out 360ms ease-in;
+  }
+  ::view-transition-new(root) {
+    animation: circle-in 500ms ease-out;
+  }
+}
+
+/* Keyframes used by transitions */
+@keyframes move-out {
+  from { opacity: 1; transform: translateY(0); }
+  to { opacity: 0; transform: translateY(-8%); }
+}
+
+@keyframes circle-in {
+  from { clip-path: circle(0% at 50% 0%); }
+  to { clip-path: circle(120% at 50% 0%); }
+}
+
+/* Default theme: start dark by default, unless user chooses otherwise */
+:root {
+  --theme: 🌑;
+}
+
+/* Ensure color-scheme when using the .dark class on root */
+:root.dark {
+  color-scheme: dark;
+}
+
+/* --- Admin keypad modal (iOS-style glass) --- */
+/* Dialog element fills screen with subtle blur via backdrop */
+#admin-keypad {
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+#admin-keypad::backdrop {
+  background: rgba(2,6,23,0.55);
+  backdrop-filter: blur(6px);
+}
+
+.admin-card {
+  inline-size: min(480px, 92vw);
+  margin: 8vh auto;
+  border-radius: 22px;
+  background: linear-gradient(180deg, var(--ios-surface), var(--ios-surface-2));
+  border: 1px solid var(--ios-border);
+  box-shadow: var(--ios-shadow);
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+}
+
+/* pop-in each time dialog opens */
+.admin-dialog[open] .admin-card { animation: admin-pop 320ms cubic-bezier(.2,.8,.25,1) both; }
+@keyframes admin-pop { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+.admin-card-inner { padding: 20px 20px 24px; }
+
+.admin-card-header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.admin-card-header h3 { margin:0; font-size:1.05rem; color: var(--ios-text); font-weight:600; }
+.admin-sub { margin:6px 0 14px; color: var(--ios-muted); font-size:0.925rem; }
+
+.admin-close { background:none; border:0; color:var(--ios-text); font-size:1.5rem; line-height:1; cursor:pointer; border-radius:10px; padding:4px 8px; }
+.admin-close:focus-visible { outline: none; box-shadow: var(--ios-ring); }
+
+.pin-dots { display:flex; justify-content:center; gap:12px; margin: 8px 0 16px; }
+.pin-dots .dot { width:12px; height:12px; border-radius:50%; background: rgba(255,255,255,0.22); border:1px solid var(--ios-border); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18); transform: scale(.88); transition: transform .18s ease, background .18s ease; }
+.pin-dots .dot.filled { background: #e2e8f0; transform: scale(1); }
+:root.dark .pin-dots .dot.filled { background: #a5b4fc; }
+
+.keypad { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; margin-top:10px; }
+.keypad .key { 
+  appearance:none; -webkit-appearance:none;
+  border:1px solid var(--ios-border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.07));
+  color: var(--ios-text);
+  border-radius: 18px;
+  padding: 16px 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.14), 0 8px 24px rgba(2,6,23,0.28);
+  transition: transform .08s ease, background .18s ease, box-shadow .18s ease;
+}
+.keypad .key:hover { background: linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0.1)); box-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 10px 28px rgba(2,6,23,0.33); }
+.keypad .key:active { transform: translateY(1px) scale(0.995); }
+.keypad .key:focus-visible { outline: none; box-shadow: var(--ios-ring); }
+
+.keypad .key-action { font-weight: 700; }
+
+/* --- Toast notifications --- */
+#toast-container { position: fixed; top: 14px; right: 14px; left: auto; z-index: 2147483647; display: grid; gap: 10px; pointer-events: none; }
+.toast {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:12px;
+  background: linear-gradient(180deg, var(--ios-surface), var(--ios-surface-2));
+  border:1px solid var(--ios-border);
+  color: var(--ios-text);
+  box-shadow: var(--ios-shadow);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  min-inline-size: 200px;
+  pointer-events: auto;
+  animation: toast-in 220ms cubic-bezier(.2,.8,.25,1) both;
+}
+.toast.error { border-color: rgba(239,68,68,0.5); }
+.toast .msg { font-size: 0.95rem; }
+.toast .close { margin-left:auto; background:none; border:0; color:inherit; cursor:pointer; font-size:1rem; border-radius:8px; padding:2px 6px; }
+.toast .close:focus-visible { outline:none; box-shadow: var(--ios-ring); }
+
+@keyframes toast-in { from { opacity:0; transform: translateY(-6px) scale(.98);} to { opacity:1; transform: translateY(0) scale(1);} }
+
+@media (max-width: 480px){
+  #toast-container { top: 10px; right: 10px; }
+}
+
