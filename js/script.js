@@ -175,17 +175,28 @@
 
     if (item.isPortfolio){
         // If a portfolio URL is configured, open it; otherwise route through the login gate.
+        // Compute a directory-aware login URL so the site behaves the same when deployed under a subpath.
         a.addEventListener('click', (e)=>{
           e.preventDefault();
           if (portfolioUrl) {
             try { window.open(portfolioUrl, '_blank', 'noopener'); } catch(_) { window.location.href = portfolioUrl; }
             return;
           }
+
           try {
-            const loginUrl = new URL('login.html?target=portfolio', window.location.href);
-            window.location.href = loginUrl.href;
+            // When opened via file://, use a simple relative navigation so local files resolve correctly.
+            if (location.protocol === 'file:') {
+              window.location.href = 'login.html?target=portfolio';
+              return;
+            }
+
+            // Ensure we stay in the same directory as the current document. If the current path
+            // doesn't end with a slash, append one so we build a directory path (e.g. '/dg' -> '/dg/').
+            const basePath = location.pathname.endsWith('/') ? location.pathname : location.pathname + '/';
+            const loginHref = location.origin + basePath + 'login.html?target=portfolio';
+            window.location.href = loginHref;
           } catch (err) {
-            // Fallback to root-relative if URL constructor fails in odd environments
+            // Fallback to root-relative if anything goes wrong
             window.location.href = '/login.html?target=portfolio';
           }
         });
